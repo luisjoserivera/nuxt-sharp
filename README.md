@@ -1,84 +1,155 @@
-<!--
-Get your module up and running quickly.
+# `@clickable/nuxt-img`
 
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
--->
+Sharp-powered image module for Nuxt.
 
-# My Module
+This module adds:
 
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
-[![Nuxt][nuxt-src]][nuxt-href]
+- a `SharpImg` component
+- a `useSharp()` composable
+- a server endpoint that transforms local images with `sharp`
 
-My new Nuxt module for doing amazing things.
+It is designed for local project images and responsive image URLs generated inside your Nuxt app.
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
-
-## Features
-
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
-
-## Quick Setup
-
-Install the module to your Nuxt application with one command:
+## Install
 
 ```bash
-npx nuxi module add my-module
+npm install @clickable/nuxt-img sharp
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+Then register the module in your Nuxt config:
 
+```ts
+export default defineNuxtConfig({
+  modules: ['@clickable/nuxt-img'],
+})
+```
 
-## Contribution
+## Quick Start
 
-<details>
-  <summary>Local development</summary>
-  
-  ```bash
-  # Install dependencies
-  npm install
-  
-  # Generate type stubs
-  npm run dev:prepare
-  
-  # Develop with the playground
-  npm run dev
-  
-  # Build the playground
-  npm run dev:build
-  
-  # Run ESLint
-  npm run lint
-  
-  # Run Vitest
-  npm run test
-  npm run test:watch
-  
-  # Release new version
-  npm run release
-  ```
+Place your images in `public/` by default, or point the module to another local directory.
 
-</details>
+```vue
+<template>
+  <SharpImg
+    src="/cover.png"
+    width="320"
+    background="green"
+    alt="Cover image"
+  />
+</template>
+```
 
+You can also generate URLs manually:
 
-<!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/my-module
+```vue
+<script setup>
+const $img = useSharp()
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/my-module
+const coverUrl = $img('/cover.png', {
+  width: 640,
+  background: 'white',
+  format: 'webp',
+})
+</script>
+```
 
-[license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/my-module
+## Configuration
 
-[nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
-[nuxt-href]: https://nuxt.com
+```ts
+export default defineNuxtConfig({
+  modules: ['@clickable/nuxt-img'],
+  nuxtSharp: {
+    dir: 'assets',
+    baseURL: '/_nsharp',
+    urlModifiersSeparator: '_sharpMod',
+    densities: [1, 2],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      '2xl': 1536,
+    },
+  },
+})
+```
+
+Current defaults:
+
+- `dir`: `public`
+- `baseURL`: `/_nsharp`
+- `urlModifiersSeparator`: `_sharpMod`
+- `format`: `['webp']`
+- `densities`: `[1, 2]`
+
+## Supported Image Modifiers
+
+These modifiers are currently implemented end-to-end:
+
+- `width`
+- `height`
+- `background`
+- `format`
+
+Example:
+
+```vue
+<template>
+  <SharpImg
+    src="/cover.png"
+    width="400"
+    height="240"
+    format="webp"
+    background="white"
+    alt="Example image"
+  />
+</template>
+```
+
+## Responsive Images
+
+`SharpImg` can generate `sizes` and `srcset` values using the configured breakpoints and densities.
+
+```vue
+<template>
+  <SharpImg
+    src="/cover.png"
+    width="1200"
+    height="675"
+    sizes="xs:100vw md:768px xl:1200px"
+    alt="Responsive cover"
+  />
+</template>
+```
+
+## Notes For This Release
+
+- The module serves and transforms local files only.
+- The first release intentionally documents only the modifiers that are already implemented.
+- Some props exist in the component API for future expansion, but they are not yet part of the documented contract for this release.
+
+## Deployment Note
+
+`sharp` is a native dependency and must be installed for the target runtime platform.
+If you deploy your Nuxt app to Linux, build and install dependencies in a Linux environment instead of copying `node_modules` from macOS.
+
+## Development
+
+```bash
+npm install
+npm run dev:prepare
+npm run dev
+```
+
+Useful commands:
+
+```bash
+npm run lint
+npm run test
+npm run test:types
+```
+
+Formatting and style are enforced by the repository config.
+Use the workspace Prettier and ESLint settings from this project so format-on-save matches `npm run lint`.

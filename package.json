@@ -1,8 +1,19 @@
 {
   "name": "@clickable/nuxt-img",
   "version": "1.0.0",
-  "description": "My new Nuxt module",
-  "repository": "@clickable/nuxt-img",
+  "description": "Sharp-powered local image module for Nuxt",
+  "repository": {
+    "type": "git",
+    "directory": "."
+  },
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "images",
+    "sharp",
+    "responsive-images",
+    "vue"
+  ],
   "license": "MIT",
   "type": "module",
   "exports": {
