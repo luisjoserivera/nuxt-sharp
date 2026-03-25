@@ -1,5 +1,4 @@
-// import { h, defineComponent, ref, computed, onMounted } from "vue";
-import { h, computed, defineComponent } from 'vue'
+import { h, ref, computed, defineComponent, onMounted } from 'vue'
 import { parseSize } from '../utils/index.js'
 import { prerenderStaticImages } from '../utils/prerender.js'
 import { markFeatureUsage } from '../utils/performance.js'
