@@ -1,6 +1,6 @@
 {
   "name": "@clickable/nuxt-img",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sharp-powered local image module for Nuxt",
   "repository": {
     "type": "git",
