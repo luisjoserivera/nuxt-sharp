@@ -24,12 +24,7 @@ export default defineEventHandler(async (event) => {
     //   path.join("assets", imageConfig.filePath),
     // );
 
-    const absPath = path.resolve(moduleConfig.dir, imageConfig.filePath)
-    // console.log("absPath", absPath);
-
-    if (!absPath) {
-      throw new Error('Invalid file path')
-    }
+    const absPath = resolveImagePath(moduleConfig.dir, imageConfig.filePath)
 
     // Check if the file exists
     if (!fs.existsSync(absPath)) {
@@ -76,6 +71,26 @@ export default defineEventHandler(async (event) => {
     res.end(`Bad Request: ${error.message}`)
   }
 })
+
+function resolveImagePath(baseDir, filePath) {
+  if (!baseDir || !filePath) {
+    throw new Error('Invalid file path')
+  }
+
+  const resolvedBaseDir = path.resolve(baseDir)
+  const sanitizedPath = decodeURIComponent(filePath).replace(/^[/\\]+/, '')
+  const absPath = path.resolve(resolvedBaseDir, sanitizedPath)
+  const relativePath = path.relative(resolvedBaseDir, absPath)
+
+  if (
+    relativePath.startsWith('..')
+    || path.isAbsolute(relativePath)
+  ) {
+    throw new Error('Path traversal is not allowed')
+  }
+
+  return absPath
+}
 
 /**
  *
