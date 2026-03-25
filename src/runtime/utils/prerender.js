@@ -13,14 +13,14 @@ export function prerenderStaticImages(src = '', srcset = '') {
 
   const paths = [
     src,
-    ...srcset.split(', ').map(s => s.trim().split(' ')[0].trim()),
-  ].filter(s => s && s.includes(nuxtSharpOptions.baseURL))
+    ...srcset.split(', ').map((s) => s.trim().split(' ')[0].trim()),
+  ].filter((s) => s && s.includes(nuxtSharpOptions.baseURL))
   if (!paths.length) {
     return
   }
   appendHeader(
     useRequestEvent(),
     'x-nitro-prerender',
-    paths.map(p => encodeURIComponent(p)).join(', '),
+    paths.map((p) => encodeURIComponent(p)).join(', '),
   )
 }

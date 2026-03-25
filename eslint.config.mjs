@@ -16,5 +16,10 @@ export default createConfigForNuxt({
   },
 })
   .append(
-    // your custom flat config here...
+    {
+      rules: {
+        '@stylistic/arrow-parens': ['error', 'always'],
+        '@stylistic/brace-style': ['error', '1tbs'],
+      },
+    },
   )

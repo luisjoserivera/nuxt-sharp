@@ -36,18 +36,18 @@ export default defineComponent({
     loading: {
       type: String,
       default: void 0,
-      validator: val => ['lazy', 'eager'].includes(val),
+      validator: (val) => ['lazy', 'eager'].includes(val),
     },
     crossorigin: {
       type: [Boolean, String],
       default: void 0,
-      validator: val =>
+      validator: (val) =>
         ['anonymous', 'use-credentials', '', true, false].includes(val),
     },
     decoding: {
       type: String,
       default: void 0,
-      validator: val => ['async', 'auto', 'sync'].includes(val),
+      validator: (val) => ['async', 'auto', 'sync'].includes(val),
     },
     // csp
     nonce: { type: [String], default: void 0 },
@@ -133,7 +133,7 @@ export default defineComponent({
     )
 
     if (props.preload) {
-      const isResponsive = Object.values(sizes.value).every(v => v)
+      const isResponsive = Object.values(sizes.value).every((v) => v)
       useHead({
         link: [
           {
@@ -189,8 +189,7 @@ export default defineComponent({
       if (imgEl.value.complete && initialLoad) {
         if (imgEl.value.getAttribute('data-error')) {
           ctx.emit('error', new Event('error'))
-        }
-        else {
+        } else {
           ctx.emit('load', new Event('load'))
         }
       }

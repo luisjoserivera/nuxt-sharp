@@ -17,7 +17,7 @@ export default defineNuxtModule({
     configKey: 'nuxtSharp',
   },
   // Default configuration options of the Nuxt module
-  defaults: nuxt => ({
+  defaults: (nuxt) => ({
     // namespace: "nsharpimg",
     // trailingSlashes: true,
     // forceLowercase: false,

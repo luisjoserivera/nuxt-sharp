@@ -173,8 +173,7 @@ function getSizes(ctx, input, opts) {
       }
     }
     finaliseSizeVariants(sizeVariants)
-  }
-  else {
+  } else {
     for (const density of densities) {
       const key = Object.keys(sizes)[0]
       let variant = getSizesVariant(
@@ -202,12 +201,12 @@ function getSizes(ctx, input, opts) {
   const defaultVariant = srcsetVariants[srcsetVariants.length - 1]
   const sizesVal = sizeVariants.length
     ? sizeVariants
-        .map(v => `${v.media ? v.media + ' ' : ''}${v.size}`)
+        .map((v) => `${v.media ? v.media + ' ' : ''}${v.size}`)
         .join(', ')
     : void 0
   const suffix = sizesVal ? 'w' : 'x'
   const srcsetVal = srcsetVariants
-    .map(v => `${v.src} ${v.width}${suffix}`)
+    .map((v) => `${v.src} ${v.width}${suffix}`)
     .join(', ')
 
   const response = {

@@ -47,8 +47,7 @@ export default defineEventHandler(async (event) => {
 
     if (extFinal === 'svg' && extFinal === extOriginal) {
       await sendStream(event, readStream)
-    }
-    else {
+    } else {
       let transform = sharp()
       if (imageConfig.options) {
         transform = sharpApplyOptions(transform, imageConfig.options)
@@ -64,8 +63,7 @@ export default defineEventHandler(async (event) => {
 
       await sendStream(event, transformedStream)
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(`Error handling request: ${error.message}`)
     res.statusCode = 400
     res.end(`Bad Request: ${error.message}`)
@@ -147,15 +145,14 @@ function sharpConfigStringParser(optString) {
   const separator = sharpStringKeyToValueSeparator
   const modifierShorthands = sharpConfigStringKeys
 
-  parts = parts.map(part => part.split(separator))
+  parts = parts.map((part) => part.split(separator))
   parts.forEach((pockets) => {
     if (pockets.length < 2) return
     for (const key in modifierShorthands) {
       if (pockets[0] === modifierShorthands[key].shortName) {
         if (modifierShorthands[key].type === Number) {
           options[key] = Number.parseInt(pockets[1])
-        }
-        else {
+        } else {
           options[key] = pockets[1]
         }
       }
