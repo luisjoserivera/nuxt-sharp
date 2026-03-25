@@ -1,10 +1,14 @@
 {
   "name": "@clickable/nuxt-img",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Sharp-powered local image module for Nuxt",
   "repository": {
     "type": "git",
-    "directory": "."
+    "url": "git+https://github.com/luisjoserivera/nuxt-sharp.git"
+  },
+  "homepage": "https://github.com/luisjoserivera/nuxt-sharp#readme",
+  "bugs": {
+    "url": "https://github.com/luisjoserivera/nuxt-sharp/issues"
   },
   "keywords": [
     "nuxt",

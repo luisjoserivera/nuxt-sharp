@@ -13,7 +13,7 @@ It is designed for local project images and responsive image URLs generated insi
 ## Install
 
 ```bash
-npm install @clickable/nuxt-img sharp
+npm install @clickable/nuxt-img
 ```
 
 Then register the module in your Nuxt config:
