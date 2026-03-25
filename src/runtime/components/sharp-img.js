@@ -148,7 +148,7 @@ export default defineComponent({
                   imagesrcset: sizes.value.srcset,
                 }),
             ...(typeof props.preload !== 'boolean'
-            && props.preload.fetchPriority
+              && props.preload.fetchPriority
               ? { fetchpriority: props.preload.fetchPriority }
               : {}),
           },

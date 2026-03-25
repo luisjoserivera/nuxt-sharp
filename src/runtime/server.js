@@ -93,9 +93,9 @@ function resolveImagePath(baseDir, filePath) {
 }
 
 /**
- *
+ * Parse image settings from the requested URL.
  * @param {*} url
- * @returns
+ * @returns {object} Parsed file path, extensions and Sharp options.
  */
 function sharpConfigFromUrl(url) {
   // const parts = url.split("/_sharp/").pop().split("._sharpMod.");
@@ -133,9 +133,9 @@ function sharpConfigFromUrl(url) {
 }
 
 /**
- *
+ * Apply supported Sharp transformations to the stream.
  * @param {*} optString
- * @returns
+ * @returns {object} Parsed Sharp options.
  */
 function sharpConfigStringParser(optString) {
   if (!optString || typeof optString !== 'string' || optString === 'original') {

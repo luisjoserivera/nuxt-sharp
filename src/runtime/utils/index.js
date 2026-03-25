@@ -1,7 +1,7 @@
 /**
- *
+ * Normalize color strings supported by the module.
  * @param {*} value
- * @returns
+ * @returns {string|null} The normalized color or `null` when invalid.
  */
 export function parseColor(value) {
   // List of valid color names

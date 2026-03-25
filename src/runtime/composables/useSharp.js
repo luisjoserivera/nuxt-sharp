@@ -82,8 +82,7 @@ function resolveImage(ctx, imgSrc, imgOptions) {
       if (!{}.hasOwnProperty.call(imgOptions, mod)) continue
       if (!imgOptions[mod]) continue
       if (mod === 'format') continue
-      const part
-        = sharpConfigStringKeys[mod].shortName
+      const part = sharpConfigStringKeys[mod].shortName
         + sharpStringKeyToValueSeparator
         + `${imgOptions[mod]}`
       // console.log("mod:", mod, part);
@@ -203,8 +202,8 @@ function getSizes(ctx, input, opts) {
   const defaultVariant = srcsetVariants[srcsetVariants.length - 1]
   const sizesVal = sizeVariants.length
     ? sizeVariants
-      .map(v => `${v.media ? v.media + ' ' : ''}${v.size}`)
-      .join(', ')
+        .map(v => `${v.media ? v.media + ' ' : ''}${v.size}`)
+        .join(', ')
     : void 0
   const suffix = sizesVal ? 'w' : 'x'
   const srcsetVal = srcsetVariants
