@@ -52,17 +52,15 @@ export function parseSize(input = '') {
 export function parseSizes(input) {
   const sizes = {}
   if (typeof input === 'string') {
-    for (const entry of input.split(/[\s,]+/).filter(e => e)) {
+    for (const entry of input.split(/[\s,]+/).filter((e) => e)) {
       const s = entry.split(':')
       if (s.length !== 2) {
         sizes['1px'] = s[0].trim()
-      }
-      else {
+      } else {
         sizes[s[0].trim()] = s[1].trim()
       }
     }
-  }
-  else {
+  } else {
     Object.assign(sizes, input)
   }
   return sizes
@@ -88,7 +86,7 @@ export function checkDensities(densities) {
       '`densities` must not be empty, configure to `1` to render regular size only (DPR 1.0)',
     )
   }
-  if (import.meta.dev && Array.from(densities).some(d => d > 2)) {
+  if (import.meta.dev && Array.from(densities).some((d) => d > 2)) {
     const _densities = densities
     if (!_densities._warned) {
       console.warn(
