@@ -33,6 +33,7 @@ Place your images in `public/` by default, or point the module to another local 
   <SharpImg
     src="/cover.png"
     width="320"
+    quality="80"
     background="green"
     alt="Cover image"
   />
@@ -47,6 +48,7 @@ const $img = useSharp()
 
 const coverUrl = $img('/cover.png', {
   width: 640,
+  quality: 80,
   background: 'white',
   format: 'webp',
 })
@@ -81,7 +83,6 @@ Current defaults:
 - `dir`: `public`
 - `baseURL`: `/_nsharp`
 - `urlModifiersSeparator`: `_sharpMod`
-- `format`: `['webp']`
 - `densities`: `[1, 2]`
 
 ## Supported Image Modifiers
@@ -90,6 +91,7 @@ These modifiers are currently implemented end-to-end:
 
 - `width`
 - `height`
+- `quality` (integer from `1` to `100`)
 - `background`
 - `format`
 
@@ -101,6 +103,7 @@ Example:
     src="/cover.png"
     width="400"
     height="240"
+    quality="80"
     format="webp"
     background="white"
     alt="Example image"
@@ -133,7 +136,10 @@ Example:
 ## Deployment Note
 
 `sharp` is a native dependency and must be installed for the target runtime platform.
+It is installed automatically with this module; you do not need to list it separately.
 If you deploy your Nuxt app to Linux, build and install dependencies in a Linux environment instead of copying `node_modules` from macOS.
+
+This release requires Node.js `22.19.0+`, `24.11.0+`, or `26.0.0+` within the corresponding major version.
 
 ## Development
 

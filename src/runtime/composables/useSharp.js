@@ -80,7 +80,11 @@ function resolveImage(ctx, imgSrc, imgOptions) {
     const parts = []
     for (const mod in sharpConfigStringKeys) {
       if (!{}.hasOwnProperty.call(imgOptions, mod)) continue
-      if (!imgOptions[mod]) continue
+      if (
+        imgOptions[mod] === undefined
+        || imgOptions[mod] === null
+        || imgOptions[mod] === ''
+      ) continue
       if (mod === 'format') continue
       const part = sharpConfigStringKeys[mod].shortName
         + sharpStringKeyToValueSeparator
@@ -97,7 +101,7 @@ function resolveImage(ctx, imgSrc, imgOptions) {
   const format = imgOptions?.format || fileExt
 
   const nameParts = [imgSrc]
-  if (fileExt !== 'svg') {
+  if (fileExt !== 'svg' || format !== 'svg') {
     nameParts.push(nuxtSharpOptions.urlModifiersSeparator)
     nameParts.push(modifiers || 'original')
     nameParts.push(format)

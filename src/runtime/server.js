@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
     // Check if the file exists
     if (!fs.existsSync(absPath)) {
       res.statusCode = 404
-      res.end(`File not found: ${absPath}`)
+      res.end('File not found')
       return
     }
 
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     readStream.on('error', (err) => {
       console.error(`Error reading file: ${err.message}`)
       res.statusCode = 500
-      res.end(`Error reading file: ${err.message}`)
+      res.end('Error reading image')
     })
 
     const { extFinal, extOriginal } = imageConfig
@@ -50,7 +50,11 @@ export default defineEventHandler(async (event) => {
     } else {
       let transform = sharp()
       if (imageConfig.options) {
-        transform = sharpApplyOptions(transform, imageConfig.options)
+        transform = sharpApplyOptions(
+          transform,
+          imageConfig.options,
+          imageConfig.extFinal,
+        )
       }
 
       const transformedStream = readStream.pipe(transform)
@@ -58,7 +62,7 @@ export default defineEventHandler(async (event) => {
       transformedStream.on('error', (err) => {
         console.error(`Error processing image: ${err.message}`)
         res.statusCode = 500
-        res.end(`Internal Server Error: ${err.message}`)
+        res.end('Error processing image')
       })
 
       await sendStream(event, transformedStream)
@@ -151,7 +155,9 @@ function sharpConfigStringParser(optString) {
     for (const key in modifierShorthands) {
       if (pockets[0] === modifierShorthands[key].shortName) {
         if (modifierShorthands[key].type === Number) {
-          options[key] = Number.parseInt(pockets[1])
+          options[key] = key === 'quality'
+            ? Number(pockets[1])
+            : Number.parseInt(pockets[1])
         } else {
           options[key] = pockets[1]
         }
@@ -167,7 +173,7 @@ function sharpConfigStringParser(optString) {
  * @param {*} options     Sharp options
  * @returns               Sharp object with options applied
  */
-function sharpApplyOptions(transform, options) {
+function sharpApplyOptions(transform, options, outputFormat) {
   const { width, height } = options
 
   if (width || height) {
@@ -178,7 +184,19 @@ function sharpApplyOptions(transform, options) {
     transform.flatten({ background: options.background })
   }
 
-  if (options.format) {
+  if (options.quality !== undefined) {
+    if (
+      !Number.isInteger(options.quality)
+      || options.quality < 1
+      || options.quality > 100
+    ) {
+      throw new Error('Quality must be an integer between 1 and 100')
+    }
+
+    transform.toFormat(options.format || outputFormat, {
+      quality: options.quality,
+    })
+  } else if (options.format) {
     transform.toFormat(options.format)
   }
 
